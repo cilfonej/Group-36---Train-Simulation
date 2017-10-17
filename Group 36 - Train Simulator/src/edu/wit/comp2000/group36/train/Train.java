@@ -22,4 +22,12 @@ public class Train {
 	}
 	
 	
+	public int getLocation() {
+		return location;
+	}
+	
+	public boolean isInbound() {
+		return isInbound;
+	}
+	
 }

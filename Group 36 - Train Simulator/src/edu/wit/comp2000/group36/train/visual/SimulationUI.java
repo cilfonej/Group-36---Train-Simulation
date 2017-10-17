@@ -35,19 +35,19 @@ public class SimulationUI extends PanelUI implements ComponentListener {
 	private float spetMulti;
 	
 	public SimulationUI(Simulation simulation) {
-		this.simulation = simulation;
-		this.trains = new TrainDrawInfo[simulation.getTrains().length];
-		this.stations = new StationDrawInfo[simulation.getRoute().getStationCount()];
-		
-		for(int i = 0; i < trains.length; i ++) {
-			trains[i] = new TrainDrawInfo(simulation.getTrains()[i]);
-		}
-		
-		for(int i = 0; i < stations.length; i ++) {
-			stations[i] = new StationDrawInfo(simulation.getRoute().getStation(i));
-		}
-		
-		spetMulti = simulation.getRoute().getLength() / 100;
+//		this.simulation = simulation;
+//		this.trains = new TrainDrawInfo[simulation.getTrains().length];
+//		this.stations = new StationDrawInfo[simulation.getRoute().getStationCount()];
+//		
+//		for(int i = 0; i < trains.length; i ++) {
+//			trains[i] = new TrainDrawInfo(simulation.getTrains()[i]);
+//		}
+//		
+//		for(int i = 0; i < stations.length; i ++) {
+//			stations[i] = new StationDrawInfo(simulation.getRoute().getStation(i));
+//		}
+//		
+//		spetMulti = simulation.getRoute().getLength() / 100;
 	}
 	
 	private static final int DELAY = 10;
@@ -161,7 +161,7 @@ public class SimulationUI extends PanelUI implements ComponentListener {
 		private void recalculate() {
 			ArrayList<Point2D> path = train.isInbound() ? pointsInt : pointsOut;
 			
-			int length = simulation.getRoute().getLength();
+			int length = simulation.getRoute().getDistance();
 			float locLength = (float) path.size() / length;
 			
 			int nextLoc = (train.getLocation() + (train.isInbound() ? -1 : 1) + length) % length;
@@ -223,7 +223,7 @@ public class SimulationUI extends PanelUI implements ComponentListener {
 		
 		private int getIndexForLocation(int location, boolean inbound) {
 			ArrayList<Point2D> path = inbound ? pointsInt : pointsOut;
-			int length = simulation.getRoute().getLength();
+			int length = simulation.getRoute().getDistance();
 			float locLength = (float) path.size() / length;
 			
 			return ((int) (location * locLength) + path.size()) % path.size();

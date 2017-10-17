@@ -17,7 +17,7 @@ public class Station {
 		
 	}
 	
-	int getLocation() {
+	public int getLocation() {
 		return location;
 	}
 }

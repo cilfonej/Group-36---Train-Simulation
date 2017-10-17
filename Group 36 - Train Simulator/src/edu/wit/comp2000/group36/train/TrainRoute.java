@@ -17,4 +17,8 @@ public class TrainRoute {
 	void addStation(Station s) {
 		
 	}
+	
+	public int getDistance() {
+		return distance;
+	}
 }
