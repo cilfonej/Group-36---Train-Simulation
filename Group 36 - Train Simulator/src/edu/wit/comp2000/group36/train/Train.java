@@ -8,26 +8,38 @@ public class Train {
 	private int id;
 	private final int maxCapacity = 50;
 	private boolean isInbound;
+	private boolean initialized = false;
 	
-	Train(){
+	public Train(){
 		
+		initialized = true;
 	}
 	
-	boolean load(Passenger p) {
+	public boolean load(Passenger p) {
+		checkInitialization();
 		return false;
 	}
 	
-	void unload() {
+	public void unload() {
+		checkInitialization();
 		
 	}
 	
 	
 	public int getLocation() {
+		checkInitialization();
 		return location;
 	}
 	
 	public boolean isInbound() {
+		checkInitialization();
 		return isInbound;
 	}
 	
+	private void checkInitialization() {
+		if ( !initialized )
+		{
+			throw new SecurityException( "Calculator is not properly initialized." ) ;
+		} //end if
+	} // end checkInitialization
 }

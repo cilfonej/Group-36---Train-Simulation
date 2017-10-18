@@ -5,20 +5,32 @@ import java.util.ArrayList;
 public class TrainRoute {
 	private ArrayList<Station> stations;
 	private int distance;
+	private boolean initialized;
 	
-	TrainRoute(int distance){
+	public TrainRoute(int distance){
 		this.distance = distance;
+		initialized = true;
 	}
 	
-	int calculateDistance(Station start, Station end, boolean isInbound) {
+	public int calculateDistance(Station start, Station end, boolean isInbound) {
+		checkInitialization();
 		return 0;
 	}
 	
-	void addStation(Station s) {
+	public void addStation(Station s) {
+		checkInitialization();
 		
 	}
 	
 	public int getDistance() {
+		checkInitialization();
 		return distance;
 	}
+	
+	private void checkInitialization() {
+		if ( !initialized )
+		{
+			throw new SecurityException( "Calculator is not properly initialized." ) ;
+		} //end if
+	} // end checkInitialization
 }
