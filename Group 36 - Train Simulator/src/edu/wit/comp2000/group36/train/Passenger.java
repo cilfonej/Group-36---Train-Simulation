@@ -8,7 +8,7 @@ public class Passenger {
 	private boolean isInbound; //TODO: calculate isInbound
 	private boolean initialized = false;
 	
-	public Passenger(Station start, Station end) {
+	public Passenger(int ID, Station start, Station destination) {
 		ID = nextID;
 		nextID++;
 		this.start = start;
@@ -16,7 +16,7 @@ public class Passenger {
 		initialized = true;
 	}
 	
-	public boolean getIsInbound() {
+	public boolean IsInbound() {
 		checkInitialization();
 		return isInbound;
 	}
@@ -24,7 +24,32 @@ public class Passenger {
 	private void checkInitialization() {
 		if ( !initialized )
 		{
-			throw new SecurityException( "Calculator is not properly initialized." ) ;
+			throw new SecurityException( "Train is not inbound." ) ;
 		} //end if
 	} // end checkInitialization
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public Station getStart() {
+		return start;
+	}
+	
+	public Station getEnd() {
+		return end;
+	}
+	 
+	public String toString() {
+		String result = " ";
+		result += "Passenger " + ID + "\t";
+		result += "Station coming from is " + start.getLocation() + "\t";
+		result += "Station they're going to is " + end.getLocation() + "\t";
+		result += "IsInbound.";
+		return result;
+	}
+	
+	public static void main(String[]args) {
+		
+	}
 }
