@@ -53,7 +53,7 @@ public class Station {
 	
 	public String toString() {
 		checkInitialization();
-		return null;
+		return "Station at location" + this.getLocation();
 	} // end toString
 	
 	public void log() {
@@ -66,10 +66,7 @@ public class Station {
 	 **/
 	private boolean passengerIsInbound(Passenger p) {
 		checkInitialization();
-		System.out.println(trainRoute.calculateDistance(p.getStart(), p.getEnd(), true)); 
-		System.out.println(trainRoute.calculateDistance(p.getStart(), p.getEnd(), false));
-		System.out.println();
-		return trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) >= trainRoute.calculateDistance(p.getStart(), p.getEnd(), false);
+		return trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) <= trainRoute.calculateDistance(p.getStart(), p.getEnd(), false);
 	}
 	
 	private void checkInitialization() {
@@ -144,8 +141,17 @@ public class Station {
 	}
 
 	private static void testUnload(Station s) {
-		// TODO Auto-generated method stub
+		System.out.println("\n---------------\ntesting Load");
+		//inbound passengers on inbound train
+		//outbound passengers on outbound train
+		//inbound passengers on outbound train
+		//outbound passengers on inbound train
+		//empty passengers on inbound train
+		//empty passengers on outbound train
+		//inbound passengers on full train
+		//outbound passengers on almost full train
 		
+		System.out.println("\n---------------\nFinished testing Load");
 	}
 
 	private static void testToString(Station s) {

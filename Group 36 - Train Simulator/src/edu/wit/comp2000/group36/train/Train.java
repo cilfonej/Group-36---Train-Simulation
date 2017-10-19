@@ -11,11 +11,17 @@ public class Train {
 	private ArrayList<Passenger> passengers;
 	private int location;
 	private int id;
-	private final int maxCapacity = 50;
+	private final int maxCapacity;
+	private final static int DEFAULT_CAPACITY = 50;
 	private boolean isInbound;
 	private boolean initialized = false;
 	
-	public Train(boolean isInbound, Station startStation){
+	public Train(boolean isInbound, Station startStation) {
+		this(DEFAULT_CAPACITY, isInbound, startStation);
+	}
+	
+	public Train(int maxCapacity, boolean isInbound, Station startStation){
+		this.maxCapacity = maxCapacity;
 		location = startStation.getLocation();
 		this.isInbound = isInbound;
 		initialized = true;
