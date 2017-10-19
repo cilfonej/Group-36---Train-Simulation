@@ -15,7 +15,8 @@ public class Train {
 	private boolean isInbound;
 	private boolean initialized = false;
 	
-	public Train(boolean isInbound){
+	public Train(boolean isInbound, Station startStation){
+		location = startStation.getLocation();
 		this.isInbound = isInbound;
 		initialized = true;
 	} // end constructor
