@@ -16,7 +16,6 @@ public class Passenger {
 	private Station end;
 	private static int nextID = 1;
 	private static int ID;
-	private boolean isInbound; //TODO: calculate isInbound
 	private boolean initialized = false;
 	
 	/**
@@ -33,15 +32,6 @@ public class Passenger {
 		this.start = start;
 		this.end = end;
 		initialized = true;
-	}
-	
-	/**
-	 * Checks the direction of the train
-	 * @return if it's inbound, true. if it's outbound, false.
-	 **/
-	public boolean IsInbound() {
-		checkInitialization();
-		return isInbound;
 	}
 	
 	private void checkInitialization() {
