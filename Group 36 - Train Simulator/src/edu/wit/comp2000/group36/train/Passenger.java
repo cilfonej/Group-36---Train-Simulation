@@ -1,5 +1,7 @@
 package edu.wit.comp2000.group36.train;
 
+import java.util.Scanner;
+
 /**
  * @author Leslie Vongphakdy
  * COMP 2000 - 03
@@ -13,7 +15,7 @@ public class Passenger {
 	private Station start;
 	private Station end;
 	private static int nextID = 1;
-	private int ID;
+	private static int ID;
 	private boolean isInbound; //TODO: calculate isInbound
 	private boolean initialized = false;
 	
@@ -25,7 +27,7 @@ public class Passenger {
 	 * @param start
 	 * @param end 
 	 **/
-	public Passenger(int ID, Station start, Station end) {
+	public Passenger(Station start, Station end) {
 		ID = nextID;
 		nextID++;
 		this.start = start;
@@ -89,6 +91,13 @@ public class Passenger {
 	}
 	
 	public static void main(String[]args) {
+		Scanner s = new Scanner(System.in);
+		
+		System.out.print("Enter passenger ID to see itinerary: ");
+		ID = s.nextInt();
+		
+
+		
 		
 	}
 }
