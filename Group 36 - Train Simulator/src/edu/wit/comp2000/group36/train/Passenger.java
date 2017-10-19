@@ -34,7 +34,7 @@ public class Passenger {
 	}
 	
 	/**
-	 * Checks the direction of the train.
+	 * Checks the direction of the train
 	 * @return if it's inbound, true. if it's outbound, false.
 	 **/
 	public boolean IsInbound() {
