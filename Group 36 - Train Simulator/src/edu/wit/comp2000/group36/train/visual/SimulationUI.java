@@ -138,7 +138,7 @@ public class SimulationUI extends PanelUI implements ComponentListener {
 		
 		public TrainDrawInfo(Train train) {
 			this.train = train;
-			this.color = Color.getHSBColor(Logger.RAND.nextFloat(), 1, 1);
+//			this.color = Color.getHSBColor(RAND.nextFloat(), 1, 1);
 			
 			this.calcLocation = -1;
 		}
@@ -194,7 +194,7 @@ public class SimulationUI extends PanelUI implements ComponentListener {
 		
 		public StationDrawInfo(Station station) {
 			this.station = station;
-			this.color = Color.getHSBColor(0, 0, Logger.RAND.nextFloat() / 2);
+//			this.color = Color.getHSBColor(0, 0, RAND.nextFloat() / 2);
 		}
 		
 		public void draw(Graphics2D g2d) {
