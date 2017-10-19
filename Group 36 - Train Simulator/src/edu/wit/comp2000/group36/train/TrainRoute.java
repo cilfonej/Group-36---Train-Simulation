@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class TrainRoute {
 	private ArrayList<Station> stations;
-	private int distance;
+	private int length;
 	private boolean initialized;
 	
 	/**
@@ -28,7 +28,7 @@ public class TrainRoute {
 	 *  @param distance The total length of this TrainRoute
 	 */
 	public TrainRoute(int distance){
-		this.distance = distance;
+		this.length = distance;
 		this.stations = new ArrayList<>();
 		
 		initialized = true;
@@ -48,29 +48,17 @@ public class TrainRoute {
 	public int calculateDistance(Station start, Station end, boolean inbound) {
 		checkInitialization();
 		
-		int startIndex = 0;
-		for(; startIndex < stations.size(); startIndex ++) {
-			if(stations.get(startIndex) == start) break;
-		}
-		
-		if(startIndex >= stations.size()) throw new IllegalArgumentException(start + " is not on this TrainRoute");
+		if(!stations.contains(start)) throw new IllegalArgumentException(start + " is not on this TrainRoute");
 		
 		int dir = inbound ? -1 : 1;
-		int distance = 0, lastLocation = start.getLocation();
+		int distance = 0;
 		
-		for(int i = (startIndex + dir + stations.size()) % stations.size(); ; i = (i + dir + stations.size()) % stations.size()) {
-			Station check = stations.get(i);
+		for(int i = (start.getLocation() + dir + length) % length; ; i = (i + dir + length) % length) {
+			distance ++;
 			
-			int diff = check.getLocation() - lastLocation;
-			if(Math.signum(diff) != dir) { // Wrap to other end of Track
-				distance += Math.min(check.getLocation(), lastLocation);
-				distance += distance - Math.max(check.getLocation(), lastLocation);
-			} else {
-				distance += Math.abs(diff);
-			}
+			Station check = getStationAtLocation(i);
+			if(check == null) continue;
 			
-			lastLocation = check.getLocation();
-		
 			if(check == end) {
 				return distance;
 				
@@ -95,7 +83,7 @@ public class TrainRoute {
 	 */
 	public int getDistance() {
 		checkInitialization();
-		return distance;
+		return length;
 	}
 	
 	/**
@@ -143,5 +131,22 @@ public class TrainRoute {
 		if(!initialized) {
 			throw new SecurityException("TrainRoute is not properly initialized") ;
 		}
+	}
+	
+//	-------------------------------------------------------------------------------------------------------------- \\
+//	----------------------------------- Test Methods ------------------------------------------------------------- \\
+//	-------------------------------------------------------------------------------------------------------------- \\
+	
+	public static void main(String[] args) {
+		TrainRoute route = new TrainRoute(10);
+		Station a = new Station(0, route);
+		Station b = new Station(5, route);
+		Station c = new Station(9, route);
+		
+		route.addStation(a); route.addStation(b); route.addStation(c);
+
+		route.calculateDistance(a, c, true);
+		System.out.println(route.calculateDistance(a, c, true));
+		System.out.println(route.calculateDistance(a, c, false));
 	}
 }
