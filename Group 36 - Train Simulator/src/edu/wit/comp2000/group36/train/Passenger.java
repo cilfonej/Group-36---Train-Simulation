@@ -78,7 +78,7 @@ public class Passenger {
 	}
 	
 	/**
-	 * sets up output for Passenger's itinerary
+	 *  sets up output for Passenger's itinerary
 	 **/
 	public String toString() {
 		String result = " ";
