@@ -1,11 +1,9 @@
 package edu.wit.comp2000.group36.train;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-// Capacity
-// 
 
 /**
  * 	Utility class used to read in simulation settings from a file. 
@@ -86,6 +84,40 @@ public class ConfigParser {
 		return VALUES.getOrDefault(key.toLowerCase(), defaultVal);
 	}
 	
+	/**
+	 *  The standard Location returned if the Location cannot be determined
+	 */
+	private static final int INVALID_LOCATION = -1;
+	
+	/**
+	 *  Calculates a location give a raw location value and the maximum length of the track. <p>
+	 *  
+	 *  This method is capable of converting a Integer Location from 0 to <code> maxLength </code>, or 
+	 *  reading in a Double value and determining the appropriate location of 0 to <code> maxLength </code>.
+	 * 
+	 *  @param raw The raw location to convert
+	 *  @param maxLength The maximum length of the track
+	 *  
+	 *  @return The parsed version of the provided raw String location, 
+	 *  			or {@link #INVALID_LOCATION} if it fails to parse the location
+	 */
+	private static int getLocation(String raw, int maxLength) {
+		try { 
+			int location = Integer.parseInt(raw);  	// Attempts to read in the values as Integer Locations
+			if(location > maxLength || location < 0) throw new NumberFormatException("Invalid Location Value: " + location);
+			return location;
+		} catch(NumberFormatException ignore) {   	// If that Fails, then
+			try { 
+				double val = Double.parseDouble(raw);
+				if(val > 1 || val < 0) throw new NumberFormatException("Invalid Location Value: " + val);
+				return (int) (maxLength * val);  	// Read in the numbers as % of the Track
+				
+			} catch(NumberFormatException e) {
+				return INVALID_LOCATION;			// If we're unable to parse the Location, just return INVALID_LOCATION 
+			}
+		}
+	} 
+	
 //	----------------------------------------------------------------------------------------------------------------------- \\
 //	---------------------------------------------- Simulation ------------------------------------------------------------- \\
 //	----------------------------------------------------------------------------------------------------------------------- \\
@@ -96,6 +128,14 @@ public class ConfigParser {
 	public static long getSeed() {
 		String raw = lookUp(RNG_SEED_KEY);
 		return raw == null ? RNG_SEED_DEFAULT : Long.parseLong(raw);
+	}
+	
+	private static final String SIMULATION_DURATION_KEY = "Simulation Duration";
+	private static final int SIMULATION_DURATION_DEFAULT = 1_000;
+	
+	public static int getSimulationDuration() {
+		String raw = lookUp(SIMULATION_DURATION_KEY);
+		return raw == null ? SIMULATION_DURATION_DEFAULT : Integer.parseInt(raw);
 	}
 	
 //	----------------------------------------------------------------------------------------------------------------------- \\
@@ -137,29 +177,78 @@ public class ConfigParser {
 	private static final String STATIONS_KEY = "Stations";
 	private static final String STATIONS_DEFAULT = ".25, .75";
 	
-	public static Station[] createStations() {
-		String raw = lookUp(MIN_PASS_CREATE_KEY, STATIONS_DEFAULT);
+	/**
+	 *  Create a new Set of {@link Station Stations} at the provided locations in the config. file, 
+	 *  and adds the stations to the provided {@link TrainRoute}.
+	 *  
+	 *  @param route The route to add the Stations to
+	 *  @return an Array of all of the newly created Stations
+	 */
+	public static Station[] createStations(TrainRoute route) {
+		String raw = lookUp(STATIONS_KEY, STATIONS_DEFAULT);
 		String[] stationLocs = raw.split(",");
 		
 		int trackLength = getRouteLength();
 		
-		Station[] stations = new Station[stationLocs.length];
-		for(int i = 0; i < stationLocs.length; i ++) {
-			String locRaw = stationLocs[i].trim();
-			int location;
+		ArrayList<Station> stations = new ArrayList<>();
+		for(String locRoaw : stationLocs) {
+			String locRaw = locRoaw.trim();
 			
-			try { location = Integer.parseInt(locRaw); }
-			catch(NumberFormatException ignore) {
-				try { 
-					location = (int) (trackLength * Double.parseDouble(locRaw)); 
-				} catch(NumberFormatException e) {
-					continue;
-				}
-			}
+			int location = getLocation(locRaw, trackLength);
+			if(location == INVALID_LOCATION) continue; // TODO: Log Invalid Location
 			
-//			stations[i] = new Station(location);
+			stations.add(new Station(location, route));
+			route.addStation(stations.get(stations.size() - 1));
 		}
 		
-		return stations;
+		return stations.toArray(new Station[0]);
+	}
+
+//	----------------------------------------------------------------------------------------------------------------------- \\
+//	------------------------------------------------- Trains -------------------------------------------------------------- \\
+//	----------------------------------------------------------------------------------------------------------------------- \\
+	
+	private static final String TRAIN_DEFAULT_CAPACITY_KEY = "Train Default Capacity";
+	private static final int TRAIN_DEFAULT_CAPACITY_DEFAULT = 100;
+	
+	public static int getDefaultTrainCapacity() {
+		String raw = lookUp(TRAIN_DEFAULT_CAPACITY_KEY);
+		return raw == null ? TRAIN_DEFAULT_CAPACITY_DEFAULT : Integer.parseInt(raw);
+	}
+	
+	private static final String TRAINS_KEY = "Trains";
+	private static final String TRAINS_DEFAULT = "I/.5/25 O/.75/50";
+	
+	/**
+	 *  Create a new Set of {@link Train Trains} at the provided locations in the config. file, 
+	 *  and adds the stations to the provided {@link TrainRoute}.
+	 *  
+	 *  @return an Array of all of the newly created Trains
+	 */
+	public static Train[] createTrains() {
+		String raw = lookUp(TRAINS_KEY, TRAINS_DEFAULT);
+		String[] trainsRaw = raw.split(" ");
+		
+		int trackLength = getRouteLength();
+		int defaultCapacity = getDefaultTrainCapacity();
+		
+		ArrayList<Train> trains = new ArrayList<>();
+		for(String trainDataRaw : trainsRaw) {
+			trainDataRaw = trainDataRaw.trim();
+
+			String[] trainData = trainDataRaw.split("/");
+			if(trainData.length < 2) continue; // TODO: Log Invalid Train Setup
+
+			boolean isInbound = trainData[0].toLowerCase().startsWith("i");
+			
+			int location = getLocation(trainData[1], trackLength);
+			if(location == INVALID_LOCATION) continue; // TODO: Log Invalid Location
+			
+			int capacity = trainData.length > 2 ? Integer.parseInt(trainData[2]) : defaultCapacity;
+			
+//			trains.add(new Train(isInbound, location, capacity));
+		}
+		
+		return trains.toArray(new Train[0]);
 	}
 }

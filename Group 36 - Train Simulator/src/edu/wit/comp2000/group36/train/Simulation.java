@@ -22,7 +22,7 @@ public class Simulation {
 	public static void main(String[] args) {
 		Simulation simulation = new Simulation();
 		
-		for(int i = 0; i < 1_000_000; i ++) {
+		for(int i = 0, length = ConfigParser.getSimulationDuration(); i < length; i ++) {
 			simulation.step();
 		}
 	}
@@ -39,12 +39,15 @@ public class Simulation {
 		RAND = new Random(ConfigParser.getSeed());
 		
 		route = new TrainRoute(ConfigParser.getRouteLength());
+		ConfigParser.createStations(route);
+
+		if(route.getStationCount() < 2) throw new IllegalStateException("There must be at least 2 Stations Loaded");
 		
 		minPassengerCreation = ConfigParser.getMinPassenegerCreatedPerTick();
-		maxPassengerCreation = ConfigParser.getMinPassenegerCreatedPerTick();
+		maxPassengerCreation = ConfigParser.getMaxPassenegerCreatedPerTick();
 		passengerCreationRange = maxPassengerCreation - minPassengerCreation;
 		
-		if(route.getStationCount() < 2) throw new IllegalStateException("There must be at least 2 Stations Loaded");
+		trains = ConfigParser.createTrains();
 	}
 	
 	/**
@@ -62,6 +65,10 @@ public class Simulation {
 			Station end = route.getStation(destIndex);
 			
 			start.load(new Passenger(start, end));
+		}
+		
+		for(Train train : trains) {
+			train.simulate();
 		}
 	}
 
