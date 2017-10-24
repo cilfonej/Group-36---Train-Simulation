@@ -99,7 +99,7 @@ public class Train {
 		return "train " + ID;
 	} // end toString
 	
-	public void log(String s) {
+	private void log(String s) {
 		checkInitialization();
 		Logger.logging(s);
 	} // end log
