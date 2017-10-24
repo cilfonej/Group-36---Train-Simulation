@@ -10,27 +10,40 @@ import java.util.ArrayList;
 public class Train {
 	private ArrayList<Passenger> passengers;
 	private int location;
-	private int id;
+	private int ID;
+	private static int nextID = 1;
 	private final int maxCapacity;
 	private final static int DEFAULT_CAPACITY = 50;
 	private boolean isInbound;
+	private TrainRoute tr;
 	private boolean initialized = false;
 	
-	public Train(boolean isInbound, Station startStation) {
-		this(DEFAULT_CAPACITY, isInbound, startStation);
+	public Train(boolean isInbound, int startLocation, TrainRoute tr) {
+		this(DEFAULT_CAPACITY, isInbound, startLocation, tr);
 	}
 	
-	public Train(int maxCapacity, boolean isInbound, Station startStation){
-		this.maxCapacity = maxCapacity;
-		location = startStation.getLocation();
-		this.isInbound = isInbound;
-		initialized = true;
+	public Train(int maxCapacity, boolean isInbound, int startLocation, TrainRoute tr){
+		if(maxCapacity >= 0 && startLocation >= 0 && startLocation <= tr.getDistance()) {
+			this.maxCapacity = maxCapacity;
+			this.location = startLocation;
+			this.isInbound = isInbound;
+			this.tr = tr;
+			ID = nextID;
+			nextID++;
+			initialized = true;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	} // end constructor
 	
 	public boolean load(Passenger p) {
 		checkInitialization();
-		passengers.add(p);
-		return false;
+		if(passengers.size() < maxCapacity) {
+			passengers.add(p);
+			return true;
+		}else {
+			return false;
+		} // end else
 	} // end load
 	
 	public void unload() {
@@ -45,11 +58,15 @@ public class Train {
 	public void simulate() {
 		if(this.isInbound()) {
 			location--;
-			
 		}else {
 			location++;
 		} // end else
 		//if location > distance or < 0 do stuff
+		if(location < 0) {
+			location = tr.getDistance();
+		}else if(location > tr.getDistance()) {
+			location = 0;
+		} // end else if
 	} // end simulate 
 	
 	public int getLocation() {
@@ -57,14 +74,22 @@ public class Train {
 		return location;
 	} // end location
 	
+	public int getMaxCapacity() {
+		checkInitialization();
+		return maxCapacity;
+	}
+	
 	public boolean isInbound() {
 		checkInitialization();
 		return isInbound;
 	} // end isInbound
 	
+	public int getID() {
+		return ID;
+	}
 	public String toString() {
 		checkInitialization();
-		return null;
+		return "train " + ID + " at location " + location + " with max capacity " + maxCapacity + "isInbound: " + isInbound;
 	} // end toString
 	
 	public void log() {
@@ -81,45 +106,86 @@ public class Train {
 	
 	public static void main(String[] args) {
 		System.out.println("\n---------------\nTesting Train");
-		testConstructor();
-		testGetters();
-		testIsInbound();
-		testLoad();
-		testUnload();
-		testToString();
+		Train t = null;
+		testConstructor(t);
+		TrainRoute tr = new TrainRoute(100);
+		testGetters(t);
+		testSimulate(t);
+		testLoad(t);
+		testUnload(t);
+		testToString(t);
 		System.out.println("\n---------------\nFinished testing Train");
 	}
 
-	private static void testConstructor() {
+	private static void testSimulate(Train t) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static void testGetters() {
+	private static void testConstructor(Train t) {
+		TrainRoute tr = new TrainRoute(5);
+		System.out.println("\n---------------\nTesting Constructor");
+		System.out.println("trainroute length = " + Integer.toString(tr.getDistance()));
+		try {
+			t = new Train(true, 2, tr);
+			System.out.println("valid entry at default capacity = 50 & startlocation = " + t.getLocation());
+		} catch (Exception e) {
+			System.out.println("invalid entry at default capacity = 50 & start location = 2" + e.toString());
+		} // end catch
+		
+		for(int i = -1; i < 7; i++) {
+			try {
+				t = new Train(false, i, tr);
+				System.out.println("valid entry at default capacity & location = " + i);
+			} catch (Exception e) {
+				System.out.println("invalid entry at default capacity & location = " + i + " " + e.toString());
+			} // end catch
+		} // end for
+		
+		try {
+			t = new Train(-1, true, 3, tr);
+			System.out.println("valid entry with max capacity = -1");
+		} catch (Exception e) {
+			System.out.println("invalid entry with max capacity = -1" + e.toString());
+		}
+		System.out.println("\n---------------\nFinished testing Constructor");
+	}
+
+	private static void testGetters(Train t) {
+		System.out.println("\n---------------\ntesting Getters");
+		
+		TrainRoute tr = new TrainRoute(10);
+		t = new Train(true, 4, tr);
+		System.out.println("\n---------------\ntesting getLocation");
+		System.out.println("\n---------------\nFinished testing getLocation");
+		
+		System.out.println("\n---------------\ntesting getMaxCapacity");
+		System.out.println("\n---------------\nFinished testing getMaxCapacity");
+		
+		System.out.println("\n---------------\ntesting getIsInbound");
+		System.out.println("\n---------------\nFinished testing getIsOutbound");
+		
+		System.out.println("\n---------------\ntesting getID");
+		System.out.println("\n---------------\nFinished testing getID");
+		
+		System.out.println("\n---------------\nFinished testing Getters");
+	}
+
+	private static void testLoad(Train t) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static void testIsInbound() {
+	private static void testUnload(Train t) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static void testLoad() {
+	private static void testToString(Train t) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	private static void testUnload() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void testToString() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	/**
      * Utility function to print out testing info.
      * @param isValid  is this testing valid parameters or invalid ones
@@ -131,5 +197,7 @@ public class Train {
 	private static void printTest( 	boolean isValid, String description, String recieved,String expected ){
 		System.out.println( String.format( "Is Valid: %s%nDescription: %s%nRecieved: %s%nExpected: %s%n", isValid, description, recieved, expected ) ) ;
 	} //end printTest
+	}
 	
-}
+	
+

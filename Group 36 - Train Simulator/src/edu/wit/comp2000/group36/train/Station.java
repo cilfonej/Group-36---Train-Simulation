@@ -16,6 +16,7 @@ public class Station {
 		if(location >= 0 && location <= trainRoute.getDistance() ) {
 		this.location = location;
 		this.trainRoute = trainRoute;
+		trainRoute.addStation(this);
 		initialized = true;
 		} else {
 			throw new IllegalArgumentException();
@@ -53,7 +54,7 @@ public class Station {
 	
 	public String toString() {
 		checkInitialization();
-		return "Station at location" + this.getLocation();
+		return "Station at location " + this.getLocation();
 	} // end toString
 	
 	public void log() {
@@ -141,7 +142,7 @@ public class Station {
 	}
 
 	private static void testUnload(Station s) {
-		System.out.println("\n---------------\ntesting Load");
+		System.out.println("\n---------------\ntesting Unload");
 		//inbound passengers on inbound train
 		//outbound passengers on outbound train
 		//inbound passengers on outbound train
@@ -151,13 +152,27 @@ public class Station {
 		//inbound passengers on full train
 		//outbound passengers on almost full train
 		
-		System.out.println("\n---------------\nFinished testing Load");
+		System.out.println("\n---------------\nFinished testing Unload");
 	}
 
 	private static void testToString(Station s) {
-		// TODO Auto-generated method stub
+		System.out.println("\n---------------\ntesting toString");
+		TrainRoute tr = new TrainRoute(10);
+		for(int i = 0; i <= tr.getDistance(); i++) {
+			s = new Station(i, tr);
+			printTest(true, "testing tostring with station at location " + s.getLocation() + " on track of length " + tr.getDistance(), s.toString() , "Station at location " + i);
+		} // end for
+		String errorString;
+		try {
+			s = new Station(tr.getDistance() + 1, tr);
+			errorString = s.toString();
+		}catch (Exception e) {
+			errorString = e.toString();
+		}
+		printTest(false, "testing tostring with station at location 11 on track of length " + tr.getDistance(), errorString, "java.lang.IllegalArgumentException");
 		
-	}
+		System.out.println("\n---------------\nFinished testing toString");
+	} // end testToString
 
 	private static void testConstructor(Station s) {
 		System.out.println("\n---------------\nTesting Constructor");
