@@ -18,6 +18,8 @@ public class Train {
 	private TrainRoute tr;
 	private boolean initialized = false;
 	
+	private int justBoarded;
+	
 	public Train(boolean isInbound, int startLocation, TrainRoute tr) {
 		this(DEFAULT_CAPACITY, isInbound, startLocation, tr);
 	}
@@ -41,6 +43,7 @@ public class Train {
 		if(passengers.size() < maxCapacity) {
 			passengers.add(p);
 			log(p.toString() + " got on " + this.toString());
+			justBoarded ++;
 			return true;
 		}else {
 			return false;
@@ -49,7 +52,7 @@ public class Train {
 	
 	public void unload() {
 		checkInitialization();
-		for(int i = 0; i < passengers.size(); i++) {
+		for(int i = passengers.size() - 1; i >= 0; i--) {
 			if(passengers.get(i).getEnd().getLocation() == this.getLocation()) {
 				log(passengers.get(i).toString() + " got off at location " + location);
 				passengers.remove(i);
@@ -58,6 +61,8 @@ public class Train {
 	} // end unload
 	
 	public void simulate() {
+		justBoarded = 0;
+		
 		if(this.isInbound()) {
 			location--;
 		}else {
@@ -70,6 +75,9 @@ public class Train {
 			location = 0;
 		} // end else if
 		log(this.toString() + " moved to location " + location);
+		
+		unload();
+		
 		Station currentStation = tr.getStationAtLocation(location);
 		if(currentStation != null) {
 			currentStation.unload(this);
@@ -111,6 +119,8 @@ public class Train {
 		} //end if
 	} // end checkInitialization
 	
+	public int getPassengerCount() { return passengers.size(); }
+	public int getJustBoarded() { return justBoarded; }
 	
 	public static void main(String[] args) {
 		System.out.println("\n---------------\nTesting Train");

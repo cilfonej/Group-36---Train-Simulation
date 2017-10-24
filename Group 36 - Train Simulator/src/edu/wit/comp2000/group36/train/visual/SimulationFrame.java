@@ -17,10 +17,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import edu.wit.comp2000.group36.train.Simulation;
+import edu.wit.comp2000.group36.train.Train;
+import edu.wit.comp2000.group36.train.visual.ui.SimulationUI;
 
 public class SimulationFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -4489738892518264663L;
-	public static void main(String[] args) { }//new SimulationFrame(); }
+	public static void main(String[] args) { new SimulationFrame(); }
 	
 	private static final int MIN_SIMULATION_SPEED = 250;
 	private static final int MAX_SIMULATION_SPEED = 10;
@@ -38,6 +40,13 @@ public class SimulationFrame extends JFrame implements ActionListener {
 	private Object simulationLock = new Object();
 	private Thread simulationThread = new Thread(() ->  {
 		while(true) {
+//			if(Train.atStation() && pauseCheckBox.isSelected()) {
+//				Train.atStationReset();
+//				
+//				runButton.setSelected(false);
+//				pauseSignal = true;
+//			}
+			
 			while(pauseSignal) { 
 				synchronized(simulationLock) { 
 					try { simulationLock.wait(); } 

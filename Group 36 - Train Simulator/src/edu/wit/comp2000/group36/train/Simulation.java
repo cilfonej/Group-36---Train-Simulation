@@ -56,7 +56,7 @@ public class Simulation {
 	 *  This causes all {@link Train Trains} to move one unit forward and attempts to create new {@link Passenger Passengers}.
 	 */
 	public void step() {
-		int creationCount = RAND.nextInt(passengerCreationRange) + minPassengerCreation;
+		int creationCount = RAND.nextInt(passengerCreationRange + 1) + minPassengerCreation;
 		Logger.logging("Creating " + creationCount + " new Passengers...");
 		
 		for(int i = 0; i < creationCount; i ++) {

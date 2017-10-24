@@ -198,7 +198,6 @@ public class ConfigParser {
 			if(location == INVALID_LOCATION) continue; // TODO: Log Invalid Location
 			
 			stations.add(new Station(location, route));
-			route.addStation(stations.get(stations.size() - 1));
 		}
 		
 		return stations.toArray(new Station[0]);

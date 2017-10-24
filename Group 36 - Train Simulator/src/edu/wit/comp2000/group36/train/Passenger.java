@@ -10,10 +10,10 @@ package edu.wit.comp2000.group36.train;
 
 public class Passenger {
 	
-	private static Station start;
-	private static Station end;
+	private final Station start;
+	private final Station end;
 	private static int nextID = 1;
-	private static int ID;
+	private int ID;
 	private boolean initialized = false;
 	
 	/**

@@ -12,6 +12,8 @@ public class Station {
 	private TrainRoute trainRoute;
 	private boolean initialized = false;
 	
+	private int inboundCount, outboundCount;
+	
 	public Station(int location, TrainRoute trainRoute){
 		if(location >= 0 && location <= trainRoute.getDistance() ) {
 		this.location = location;
@@ -28,9 +30,11 @@ public class Station {
 		//should inbound / outbound checking be done in station or TrainRoute? I think it should be done in Trainroute
 		if(passengerIsInbound(p)) {
 			inbound.enqueue(p);
+			inboundCount ++;
 			log(p.toString() + " assigned to inbound at " + this.toString());
 		} else {
 			outbound.enqueue(p);
+			outboundCount ++;
 			log(p.toString() + " assigned to outbound at " + this.toString());
 		} // end else
 	} // end load
@@ -40,16 +44,18 @@ public class Station {
 		boolean tIsFull = false;
 		if(t.isInbound()) {
 			while(!inbound.isEmpty() && !tIsFull) {
-				if(tIsFull = t.load(inbound.getFront())) {
+				if(!(tIsFull = !t.load(inbound.getFront()))) {
 					inbound.dequeue();
+					inboundCount --;
 				}else {
 					tIsFull = true;
 				}
 			} // end while
 		} else { // t is outbound
 			while(!outbound.isEmpty() && !tIsFull) {
-				if(tIsFull = t.load(outbound.getFront())) {
+				if(!(tIsFull = !t.load(outbound.getFront()))) {
 					outbound.dequeue();
+					outboundCount --;
 				} else {
 					tIsFull = true;
 				}
@@ -78,6 +84,8 @@ public class Station {
 	 **/
 	private boolean passengerIsInbound(Passenger p) {
 		checkInitialization();
+		System.out.println(p.getStart() + " < " + p.getEnd());
+		System.out.println(trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) + " < " + trainRoute.calculateDistance(p.getStart(), p.getEnd(), false));
 		return trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) <= trainRoute.calculateDistance(p.getStart(), p.getEnd(), false);
 	}
 	
@@ -88,6 +96,8 @@ public class Station {
 		} //end if
 	} // end checkInitialization
 	
+	public int getInboundWaiting() { return inboundCount; }
+	public int getOutboundWaiting() { return outboundCount; }
 	
 	public static void main(String[] args) {
 		System.out.println("\n---------------\nTesting Station");
