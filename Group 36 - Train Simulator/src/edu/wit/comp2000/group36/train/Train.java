@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  */
 public class Train {
-	private ArrayList<Passenger> passengers;
+	private ArrayList<Passenger> passengers = new ArrayList<>();
 	private int location;
 	private int ID;
 	private static int nextID = 1;
@@ -40,6 +40,7 @@ public class Train {
 		checkInitialization();
 		if(passengers.size() < maxCapacity) {
 			passengers.add(p);
+			log(p.toString() + " got on " + this.toString());
 			return true;
 		}else {
 			return false;
@@ -50,6 +51,7 @@ public class Train {
 		checkInitialization();
 		for(int i = 0; i < passengers.size(); i++) {
 			if(passengers.get(i).getEnd().getLocation() == this.getLocation()) {
+				log(passengers.get(i).toString() + " got off at location " + location);
 				passengers.remove(i);
 			} // end if
 		} // end for
@@ -67,6 +69,7 @@ public class Train {
 		}else if(location > tr.getDistance()) {
 			location = 0;
 		} // end else if
+		log(this.toString() + " moved to location " + location);
 		Station currentStation = tr.getStationAtLocation(location);
 		if(currentStation != null) {
 			currentStation.unload(this);
@@ -96,8 +99,9 @@ public class Train {
 		return "train " + ID + " at location " + location + " with max capacity " + maxCapacity + "isInbound: " + isInbound;
 	} // end toString
 	
-	public void log() {
+	public void log(String s) {
 		checkInitialization();
+		Logger.logging(s);
 	} // end log
 	
 	private void checkInitialization() {

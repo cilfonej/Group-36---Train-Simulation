@@ -28,8 +28,10 @@ public class Station {
 		//should inbound / outbound checking be done in station or TrainRoute? I think it should be done in Trainroute
 		if(passengerIsInbound(p)) {
 			inbound.enqueue(p);
+			log(p.toString() + " assigned to inbound at " + this.toString());
 		} else {
 			outbound.enqueue(p);
+			log(p.toString() + " assigned to outbound at " + this.toString());
 		} // end else
 	} // end load
 	
@@ -40,12 +42,16 @@ public class Station {
 			while(!inbound.isEmpty() && !tIsFull) {
 				if(tIsFull = t.load(inbound.getFront())) {
 					inbound.dequeue();
+				}else {
+					tIsFull = true;
 				}
 			} // end while
 		} else { // t is outbound
 			while(!outbound.isEmpty() && !tIsFull) {
 				if(tIsFull = t.load(outbound.getFront())) {
 					outbound.dequeue();
+				} else {
+					tIsFull = true;
 				}
 			} // end while
 		} // end else
@@ -61,8 +67,9 @@ public class Station {
 		return "Station at location " + this.getLocation();
 	} // end toString
 	
-	public void log() {
+	private void log(String s) {
 		checkInitialization();
+		Logger.logging(s);
 	} // end log
 	
 	/**
