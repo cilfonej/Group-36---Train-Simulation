@@ -225,7 +225,7 @@ public class ConfigParser {
 	 *  
 	 *  @return an Array of all of the newly created Trains
 	 */
-	public static Train[] createTrains() {
+	public static Train[] createTrains(TrainRoute route) {
 		String raw = lookUp(TRAINS_KEY, TRAINS_DEFAULT);
 		String[] trainsRaw = raw.split(" ");
 		
@@ -246,7 +246,7 @@ public class ConfigParser {
 			
 			int capacity = trainData.length > 2 ? Integer.parseInt(trainData[2]) : defaultCapacity;
 			
-//			trains.add(new Train(isInbound, location, capacity));
+			trains.add(new Train(capacity, isInbound, location, route));
 		}
 		
 		return trains.toArray(new Train[0]);
