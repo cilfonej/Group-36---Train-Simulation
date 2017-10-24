@@ -96,7 +96,7 @@ public class Train {
 	}
 	public String toString() {
 		checkInitialization();
-		return "train " + ID + " at location " + location + " with max capacity " + maxCapacity + "isInbound: " + isInbound;
+		return "train " + ID;
 	} // end toString
 	
 	public void log(String s) {
