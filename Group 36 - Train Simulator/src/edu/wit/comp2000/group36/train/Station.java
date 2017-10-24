@@ -38,11 +38,15 @@ public class Station {
 		boolean tIsFull = false;
 		if(t.isInbound()) {
 			while(!inbound.isEmpty() && !tIsFull) {
-				tIsFull = t.load(inbound.dequeue());
+				if(tIsFull = t.load(inbound.getFront())) {
+					inbound.dequeue();
+				}
 			} // end while
 		} else { // t is outbound
 			while(!outbound.isEmpty() && !tIsFull) {
-				tIsFull = t.load(outbound.dequeue());
+				if(tIsFull = t.load(outbound.getFront())) {
+					outbound.dequeue();
+				}
 			} // end while
 		} // end else
 	} // end unload

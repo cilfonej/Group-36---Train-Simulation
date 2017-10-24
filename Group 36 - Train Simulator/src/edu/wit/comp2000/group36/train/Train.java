@@ -67,6 +67,10 @@ public class Train {
 		}else if(location > tr.getDistance()) {
 			location = 0;
 		} // end else if
+		Station currentStation = tr.getStationAtLocation(location);
+		if(currentStation != null) {
+			currentStation.unload(this);
+		}
 	} // end simulate 
 	
 	public int getLocation() {
