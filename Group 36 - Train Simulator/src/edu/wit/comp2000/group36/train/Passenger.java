@@ -46,6 +46,7 @@ public class Passenger {
 	 * @return
 	 **/
 	public int getID() {
+		checkInitialization();
 		return ID;
 	}
 	
@@ -55,6 +56,7 @@ public class Passenger {
 	 * @return
 	 **/
 	public Station getStart() {
+		checkInitialization();
 		return start;
 	}
 	
@@ -64,6 +66,7 @@ public class Passenger {
 	 * @return
 	 **/
 	public Station getEnd() {
+		checkInitialization();
 		return end;
 	}
 	
@@ -72,22 +75,15 @@ public class Passenger {
 	 **/
 	public String toString() {
 		String result = " ";
-		result += "Ticket Itinerary:";
 		result += "Passenger " + ID + "\t";
 		result += "Station coming from is " + start.getLocation() + "\t";
 		result += "Station they're going to is " + end.getLocation() + "\t";
-		result += "IsInbound.";
 		return result;
 	}
 	
+	
+	@SuppressWarnings("resource")
 	public static void main(String[]args) {
-		Scanner s = new Scanner(System.in);
-		
-		System.out.print("Enter passenger ID to see itinerary: ");
-		ID = s.nextInt();
-		
-
-		
 		
 	}
 }
