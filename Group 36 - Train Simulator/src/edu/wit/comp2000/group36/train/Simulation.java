@@ -23,6 +23,7 @@ public class Simulation {
 		Simulation simulation = new Simulation();
 		
 		for(int i = 0, length = ConfigParser.getSimulationDuration(); i < length; i ++) {
+			Logger.logging("Step " + (i + 1) + " / " + length);
 			simulation.step();
 		}
 	}
@@ -47,7 +48,7 @@ public class Simulation {
 		maxPassengerCreation = ConfigParser.getMaxPassenegerCreatedPerTick();
 		passengerCreationRange = maxPassengerCreation - minPassengerCreation;
 		
-		trains = ConfigParser.createTrains();
+		trains = ConfigParser.createTrains(route);
 	}
 	
 	/**
@@ -56,6 +57,8 @@ public class Simulation {
 	 */
 	public void step() {
 		int creationCount = RAND.nextInt(passengerCreationRange) + minPassengerCreation;
+		Logger.logging("Creating " + creationCount + " new Passengers...");
+		
 		for(int i = 0; i < creationCount; i ++) {
 			int count = route.getStationCount();
 			int startIndex = RAND.nextInt(count);
