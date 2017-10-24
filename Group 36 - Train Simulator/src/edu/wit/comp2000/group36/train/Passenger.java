@@ -1,7 +1,5 @@
 package edu.wit.comp2000.group36.train;
 
-import java.util.Scanner;
-
 /**
  * @author Leslie Vongphakdy
  * COMP 2000 - 03
@@ -12,8 +10,8 @@ import java.util.Scanner;
 
 public class Passenger {
 	
-	private Station start;
-	private Station end;
+	private static Station start;
+	private static Station end;
 	private static int nextID = 1;
 	private static int ID;
 	private boolean initialized = false;
@@ -32,6 +30,9 @@ public class Passenger {
 		this.start = start;
 		this.end = end;
 		initialized = true;
+		Logger.logging("Train is coming from " + start);
+		Logger.logging("Train is going to " + end);
+		
 	}
 	
 	private void checkInitialization() {
@@ -75,14 +76,10 @@ public class Passenger {
 	 **/
 	public String toString() {
 		String result = " ";
-		result += "Passenger " + ID + "\t";
-		result += "Station coming from is " + start.getLocation() + "\t";
-		result += "Station they're going to is " + end.getLocation() + "\t";
+		result += "Passenger " + ID;
 		return result;
 	}
 	
-	
-	@SuppressWarnings("resource")
 	public static void main(String[]args) {
 		
 	}
