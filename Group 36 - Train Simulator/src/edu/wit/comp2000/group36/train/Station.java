@@ -1,19 +1,29 @@
 package edu.wit.comp2000.group36.train;
 
-/**
- * 
- * @author horowitzb
- *
+/*
+ *  Group 36
+ *  Brandon Horowitz
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
  */
+
 public class Station {
+	
 	private ArrayQueue<Passenger> inbound = new ArrayQueue<>(); //clockwise
 	private ArrayQueue<Passenger> outbound = new ArrayQueue<>(); //counterclockwise
 	private int location;
 	private TrainRoute trainRoute;
 	private boolean initialized = false;
-	
 	private int inboundCount, outboundCount;
 	
+	/**
+	 * takes in an integer representation of the Station's location, checks it against the trainroute's distance for validity
+	 * if the location is valid, assigns location to the instance variable of the same name
+	 * @param location
+	 * @param trainRoute
+	 */
 	public Station(int location, TrainRoute trainRoute){
 		if(location >= 0 && location <= trainRoute.getDistance() ) {
 		this.location = location;
@@ -25,6 +35,11 @@ public class Station {
 		}
 	} // end constructor
 	
+	/**
+	 * loads a passenger onto the station in the queue that will take them to their destination fastest (inbound or outbound).
+	 * if inbound and outbound distances are equal, then the passenger will be assigned to the inbound queue.
+	 * @param p: Passenger to load into queue
+	 */
 	public void load(Passenger p){
 		checkInitialization();
 		//should inbound / outbound checking be done in station or TrainRoute? I think it should be done in Trainroute
@@ -39,6 +54,10 @@ public class Station {
 		} // end else
 	} // end load
 	
+	/**
+	 * unloads passengers into train until either the relevant queue is empty or the train is full.
+	 * @param t: Train to unload passengers into
+	 */
 	public void unload(Train t){
 		checkInitialization();
 		boolean tIsFull = false;
@@ -47,32 +66,37 @@ public class Station {
 				if(!(tIsFull = !t.load(inbound.getFront()))) {
 					inbound.dequeue();
 					inboundCount --;
-				}else {
-					tIsFull = true;
-				}
+				} // end if
 			} // end while
 		} else { // t is outbound
 			while(!outbound.isEmpty() && !tIsFull) {
 				if(!(tIsFull = !t.load(outbound.getFront()))) {
 					outbound.dequeue();
 					outboundCount --;
-				} else {
-					tIsFull = true;
-				}
+				} // end if
 			} // end while
 		} // end else
 	} // end unload
 	
-	public int getLocation() {
-		checkInitialization();
-		return location;
-	} // end getLocation
+	/**
+	 * @return location
+	 */
+	public int getLocation() { checkInitialization(); return location;}
+	public int getInboundWaiting() { checkInitialization(); return inboundCount; }
+	public int getOutboundWaiting() { checkInitialization(); return outboundCount; }
 	
+	/**
+	 * toString method for Station
+	 */
 	public String toString() {
 		checkInitialization();
 		return "Station at location " + this.getLocation();
 	} // end toString
 	
+	/**
+	 * submits String to logger
+	 * @param s: String to submit
+	 */
 	private void log(String s) {
 		checkInitialization();
 		Logger.logging(s);
@@ -84,20 +108,22 @@ public class Station {
 	 **/
 	private boolean passengerIsInbound(Passenger p) {
 		checkInitialization();
-		System.out.println(p.getStart() + " < " + p.getEnd());
-		System.out.println(trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) + " < " + trainRoute.calculateDistance(p.getStart(), p.getEnd(), false));
 		return trainRoute.calculateDistance(p.getStart(), p.getEnd(), true) <= trainRoute.calculateDistance(p.getStart(), p.getEnd(), false);
-	}
+	} // end passengerIsInbound
 	
+	/**
+	 * checks if the station has been initialized
+	 */
 	private void checkInitialization() {
 		if ( !initialized )
 		{
 			throw new SecurityException( "Calculator is not properly initialized." ) ;
 		} //end if
 	} // end checkInitialization
-	
-	public int getInboundWaiting() { return inboundCount; }
-	public int getOutboundWaiting() { return outboundCount; }
+
+//	-------------------------------------------------------------------------------------------------------------- \\
+//	----------------------------------- Test Methods ------------------------------------------------------------- \\
+//	-------------------------------------------------------------------------------------------------------------- \\
 	
 	public static void main(String[] args) {
 		System.out.println("\n---------------\nTesting Station");

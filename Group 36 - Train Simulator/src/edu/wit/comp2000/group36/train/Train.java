@@ -2,11 +2,15 @@ package edu.wit.comp2000.group36.train;
 
 import java.util.ArrayList;
 
-/**
- * 
- * @author horowitzb
- *
+/*
+ *  Group 36
+ *  Brandon Horowitz
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
  */
+
 public class Train {
 	private ArrayList<Passenger> passengers = new ArrayList<>();
 	private int location;
@@ -17,13 +21,30 @@ public class Train {
 	private boolean isInbound;
 	private TrainRoute tr;
 	private boolean initialized = false;
-	
 	private int justBoarded;
 	
+	/**
+	 * calls constructor with default value for maxCapacity
+	 * @param isInbound
+	 * @param startLocation
+	 * @param tr
+	 */
 	public Train(boolean isInbound, int startLocation, TrainRoute tr) {
 		this(DEFAULT_CAPACITY, isInbound, startLocation, tr);
 	}
 	
+	/**
+	 * assigns each train a capacity for how many passengers it can hold,
+	 * a boolean for whether the train is inbound,
+	 * an integer representation for a starting location,
+	 * the trainroute it belongs to,
+	 * and automatically assigns the train an ID number.
+	 * will throw an exception if the start location is invalid or the maxCapacity is < 0
+	 * @param maxCapacity
+	 * @param isInbound
+	 * @param startLocation
+	 * @param tr
+	 */
 	public Train(int maxCapacity, boolean isInbound, int startLocation, TrainRoute tr){
 		if(maxCapacity >= 0 && startLocation >= 0 && startLocation <= tr.getDistance()) {
 			this.maxCapacity = maxCapacity;
@@ -38,6 +59,11 @@ public class Train {
 		}
 	} // end constructor
 	
+	/**
+	 * adds the passenger to the train if the train has room.
+	 * @param p: Passenger to load on to the train
+	 * @return true if the train can hold the passenger, false otherwise
+	 */
 	public boolean load(Passenger p) {
 		checkInitialization();
 		if(passengers.size() < maxCapacity) {
@@ -50,6 +76,9 @@ public class Train {
 		} // end else
 	} // end load
 	
+	/**
+	 * removes passengers from the train if they have arrived at their end station
+	 */
 	public void unload() {
 		checkInitialization();
 		for(int i = passengers.size() - 1; i >= 0; i--) {
@@ -60,6 +89,9 @@ public class Train {
 		} // end for
 	} // end unload
 	
+	/**
+	 * simulates the train's movement and loading / unloading.
+	 */
 	public void simulate() {
 		justBoarded = 0;
 		
@@ -84,43 +116,43 @@ public class Train {
 		}
 	} // end simulate 
 	
-	public int getLocation() {
-		checkInitialization();
-		return location;
-	} // end location
+	public int getLocation() { checkInitialization(); return location; }
+	public int getMaxCapacity() { checkInitialization(); return maxCapacity; }
+	public boolean isInbound() { checkInitialization(); return isInbound; }
+	public int getID() { checkInitialization(); return ID; }
+	public int getPassengerCount() { checkInitialization(); return passengers.size(); }
+	public int getJustBoarded() { checkInitialization(); return justBoarded; }
 	
-	public int getMaxCapacity() {
-		checkInitialization();
-		return maxCapacity;
-	}
-	
-	public boolean isInbound() {
-		checkInitialization();
-		return isInbound;
-	} // end isInbound
-	
-	public int getID() {
-		return ID;
-	}
+	/**
+	 * toString method for train.
+	 */
 	public String toString() {
 		checkInitialization();
 		return "train " + ID;
 	} // end toString
 	
+	/**
+	 * submits String to logger
+	 * @param s: String to submit
+	 */
 	private void log(String s) {
 		checkInitialization();
 		Logger.logging(s);
 	} // end log
 	
+	/**
+	 * checks that the train has been initialized
+	 */
 	private void checkInitialization() {
 		if ( !initialized )
 		{
 			throw new SecurityException( "Calculator is not properly initialized." ) ;
 		} //end if
 	} // end checkInitialization
-	
-	public int getPassengerCount() { return passengers.size(); }
-	public int getJustBoarded() { return justBoarded; }
+
+//	-------------------------------------------------------------------------------------------------------------- \\
+//	----------------------------------- Test Methods ------------------------------------------------------------- \\
+//	-------------------------------------------------------------------------------------------------------------- \\
 	
 	public static void main(String[] args) {
 		System.out.println("\n---------------\nTesting Train");
