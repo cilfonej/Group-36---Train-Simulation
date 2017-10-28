@@ -160,16 +160,92 @@ public class Train {
 		testConstructor(t);
 		TrainRoute tr = new TrainRoute(100);
 		testGetters(t);
-		testSimulate(t);
 		testLoad(t);
 		testUnload(t);
+		testSimulate(t);
 		testToString(t);
 		System.out.println("\n---------------\nFinished testing Train");
 	}
 
 	private static void testSimulate(Train t) {
-		// TODO Auto-generated method stub
+		System.out.println("\n---------------\ntesting simulate");
+		TrainRoute tr = new TrainRoute(10);
+		Train tOutbound = new Train(false, 10, tr);
+		Train tInbound = new Train (true, 1, tr);
+		Station[] stations = new Station[5];
+		for(int i = 0; i < stations.length - 1; i++) {
+			stations[i] = new Station(i, tr);
+		}
+		stations[4] = new Station(9, tr);
+		stations[0].load(new Passenger(stations[0], stations[1]));
+		stations[0].load(new Passenger(stations[0], stations[1]));
+		stations[0].load(new Passenger(stations[0], stations[1]));
+		stations[1].load(new Passenger(stations[1], stations[2]));
+		stations[3].load(new Passenger(stations[3], stations[4]));
+		stations[4].load(new Passenger(stations[4], stations[1]));
 		
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "3");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "1");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "1");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "1");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "1");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		tOutbound.simulate();
+		printTest(true, "outbound passenger count at location " + tOutbound.getLocation(), Integer.toString(tOutbound.getPassengerCount()), "0");
+		
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "1");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "1");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "1");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "1");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "1");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		tInbound.simulate();
+		printTest(true, "inbound passenger count at location " + tInbound.getLocation(), Integer.toString(tInbound.getPassengerCount()), "0");
+		System.out.println("\n---------------\nFinished testing simulate");
 	}
 
 	private static void testConstructor(Train t) {
@@ -206,34 +282,79 @@ public class Train {
 		
 		TrainRoute tr = new TrainRoute(10);
 		t = new Train(true, 4, tr);
-		System.out.println("\n---------------\ntesting getLocation");
-		System.out.println("\n---------------\nFinished testing getLocation");
 		
-		System.out.println("\n---------------\ntesting getMaxCapacity");
-		System.out.println("\n---------------\nFinished testing getMaxCapacity");
-		
-		System.out.println("\n---------------\ntesting getIsInbound");
-		System.out.println("\n---------------\nFinished testing getIsOutbound");
-		
-		System.out.println("\n---------------\ntesting getID");
-		System.out.println("\n---------------\nFinished testing getID");
+		printTest(true, "testing getLocation", Integer.toString(t.getLocation()), "4");
+
+		printTest(true, "testing getMaxCapacity", Integer.toString(t.getMaxCapacity()), "50");
+
+		printTest(true, "testing getIsInbound", Boolean.toString(t.isInbound()), "true");
+
+		printTest(true, "testing getID", Integer.toString(t.getID()), "8");
 		
 		System.out.println("\n---------------\nFinished testing Getters");
 	}
 
 	private static void testLoad(Train t) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("\n---------------\n\testing Load");
+		TrainRoute tr = new TrainRoute(10);
+		t = new Train(1, true, 1, tr);
+		Station s1 = new Station(1, tr);
+		Station s2 = new Station(8, tr);
+		printTest(true, "testing load with passenger on unfilled train", Boolean.toString(t.load(new Passenger(s1, s2))), "true");
+		printTest(true, "testing load with passenger on filled train", Boolean.toString(t.load(new Passenger(s1, s2))), "false");
+		System.out.println("\n---------------\nFinished testing Load");
 	}
 
 	private static void testUnload(Train t) {
-		// TODO Auto-generated method stub
+		System.out.println("\n---------------\ntesting unload");
+		TrainRoute tr = new TrainRoute(10);
+		t = new Train(true, 0, tr);
+		Station[] stations = new Station[5];
+		for(int i = 0; i < stations.length - 1; i++) {
+			stations[i] = new Station(i, tr);
+		}
+		stations[4] = new Station(10, tr);
+		t.load(new Passenger(stations[0], stations[1]));
+		t.load(new Passenger(stations[0], stations[1]));
+		t.load(new Passenger(stations[0], stations[1]));
+		t.load(new Passenger(stations[0], stations[2]));
+		t.load(new Passenger(stations[0], stations[3]));
+		t.load(new Passenger(stations[0], stations[4]));
+		t.load(new Passenger(stations[0], stations[4]));
 		
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "7");
+		t.location = 1;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "4");
+		t.location = 2;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "3");
+		t.location = 3;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "2");
+		t.location = 4;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "2");
+		t.location = 9;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "2");
+		t.location = 10;
+		t.unload();
+		printTest(true, "passenger count at location " + t.getLocation(), Integer.toString(t.getPassengerCount()), "0");
+		System.out.println("\n---------------\nFinished testing unload");
 	}
 
 	private static void testToString(Train t) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("\n---------------\ntesting toString");
+		TrainRoute trainroute = new TrainRoute(100);
+		Train train = new Train(true, 0, trainroute);
+		printTest(true, "testing toString", train.toString(), "train 13");
+		train = new Train(false, 10, trainroute);
+		printTest(true, "testing toString", train.toString(), "train 14");
+		train = new Train(true, 0, trainroute);
+		printTest(true, "testing toString", train.toString(), "train 15");
+		System.out.println("\n---------------\nFinished testing toString");
 	}
 
 	/**

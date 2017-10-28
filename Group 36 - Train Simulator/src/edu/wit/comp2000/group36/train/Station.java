@@ -137,12 +137,12 @@ public class Station {
 	}
 	
 	private static void testGetters(Station s) {
-		System.out.println("\\n---------------\\nTesting getLocation");
+		System.out.println("\n---------------\nTesting getLocation");
 		s = new Station(3, new TrainRoute(4));
-		printTest(true, "creating station at location 3 on TrainRoute of length 4" , Integer.toString(s.getLocation()), "3");
+		printTest(true, "creating station at location 3 on TrainRoute of length 4 " , Integer.toString(s.getLocation()), "3");
 		
 		s = new Station(0, new TrainRoute(5));
-		printTest(true, "creating station at location 0 on TrainRoute of length 5" , Integer.toString(s.getLocation()), "0");
+		printTest(true, "creating station at location 0 on TrainRoute of length 5 " , Integer.toString(s.getLocation()), "0");
 		
 		String location;
 		try {
@@ -160,9 +160,49 @@ public class Station {
 		System.out.println("\n---------------\ntesting Load");
 		TrainRoute tr = new TrainRoute(8);
 		s = new Station(5, tr);
-		tr.addStation(s);
 		Station temp;
-		for(int i = 0; i < tr.getDistance(); i++) {
+		for(int i = 0; i < 5; i++) {
+			try {
+				temp = new Station(i, tr);
+				s.load(new Passenger(s, temp));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		for(int i = 6; i < tr.getDistance(); i++) {
+			try {
+				temp = new Station(i, tr);
+				s.load(new Passenger(s, temp));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), " Passenger 1");
+		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), " Passenger 6");
+		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), " Passenger 7");
+		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), " Passenger 2");
+		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), " Passenger 3");
+		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), " Passenger 4");
+		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), " Passenger 5");
+		System.out.println("\n---------------\nFinished testing Load");
+	}
+
+	private static void testUnload(Station s) {
+		System.out.println("\n---------------\ntesting Unload");
+		TrainRoute tr = new TrainRoute(8);
+		s = new Station(5, tr);
+		Station temp;
+		for(int i = 0; i < 5; i++) {
+			try {
+				temp = new Station(i, tr);
+				s.load(new Passenger(s, temp));
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+		
+		for(int i = 6; i < tr.getDistance(); i++) {
 			try {
 				temp = new Station(i, tr);
 				tr.addStation(temp);
@@ -171,34 +211,16 @@ public class Station {
 				System.out.println(e.toString());
 			}
 		}
-		while(!s.outbound.isEmpty()) {
-			printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), "expected");
-		}
-		while(!s.inbound.isEmpty()) {
-			printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-		}
-//		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing outbound", s.outbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-//		printTest(true, "dequeuing inbound", s.inbound.dequeue().toString(), "expected");
-		System.out.println("\n---------------\nFinished testing Load");
-	}
 
-	private static void testUnload(Station s) {
-		System.out.println("\n---------------\ntesting Unload");
-		//inbound passengers on inbound train
-		//outbound passengers on outbound train
-		//inbound passengers on outbound train
-		//outbound passengers on inbound train
-		//empty passengers on inbound train
-		//empty passengers on outbound train
-		//inbound passengers on full train
-		//outbound passengers on almost full train
-		
+		System.out.println();
+		System.out.println("inbound waiting: " + s.getInboundWaiting());
+		System.out.println("outbound waiting: " + s.getOutboundWaiting());
+		System.out.println("unloading to inbound train");
+		s.unload(new Train(true, 5, tr));
+		printTest(true, "inbound count, outbound count", s.getInboundWaiting() + ", " + s.getOutboundWaiting(), "0, 3");
+		System.out.println("unloading to outbound train");
+		s.unload(new Train(false, 5, tr));
+		printTest(true, "inbound count, outbound count", s.getInboundWaiting() + ", " + s.getOutboundWaiting(), "0, 0");
 		System.out.println("\n---------------\nFinished testing Unload");
 	}
 
@@ -229,7 +251,7 @@ public class Station {
 				s = new Station(i, new TrainRoute(4));
 				System.out.println("valid entry at location = " + i);
 			} catch (Exception e) {
-				System.out.println("invalid entry at location = " + i + e.toString());
+				System.out.println("invalid entry at location = " + i + " " + e.toString());
 			} // end catch
 		} // end for
 		System.out.println("\n---------------\nFinished testing Constructor");
