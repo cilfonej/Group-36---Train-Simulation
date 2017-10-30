@@ -5,10 +5,17 @@ package edu.wit.comp2000.group36.train;
  *  Brandon Horowitz
  *   
  *  Comp 2000-03: Data Structures, Fall, 2017
- *  ADT 3: Queue ADT
+ *  APP 3: Queue APP
  *  Due: 10/30/2017
  */
 
+/**
+ * a simple construct used to keep track of passengers
+ * This class is also responsible for determining whether passengers should join the inbound queue or outbound queue
+ * 
+ * @author horowitzb
+ *
+ */
 public class Station {
 	
 	private ArrayQueue<Passenger> inbound = new ArrayQueue<>(); //clockwise

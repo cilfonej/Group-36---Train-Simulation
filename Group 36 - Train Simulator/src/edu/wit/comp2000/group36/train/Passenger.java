@@ -78,12 +78,21 @@ public class Passenger {
 		return "Passenger " + ID;
 	}
 	
+	/**
+	* Test method
+	**/
 	public static void main(String[]args) {
 			System.out.println("Testing Passenger Class");
 		Passenger p = null;
 		testGetters(p);
 	}
 
+	/**
+	* Sets train route.
+	* 1st passenger will go from station 2 to station 5.
+	* 2nd passenger will go from station 3 to station 6.
+	* 3rd passenger will go from station 2 to station 5.
+	**/
 	private static void testGetters(Passenger p) {
 		// TODO Auto-generated method stub
 		TrainRoute tr = new TrainRoute(10);

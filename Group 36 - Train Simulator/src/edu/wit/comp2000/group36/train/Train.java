@@ -7,10 +7,16 @@ import java.util.ArrayList;
  *  Brandon Horowitz
  *   
  *  Comp 2000-03: Data Structures, Fall, 2017
- *  ADT 3: Queue ADT
+ *  APP 3: Queue APP
  *  Due: 10/30/2017
  */
 
+/**
+ * A simple construct used to represent trains, the passengers they hold, and their movement around TrainRoute.
+ * 
+ * @author horowitzb
+ *
+ */
 public class Train {
 	private ArrayList<Passenger> passengers = new ArrayList<>();
 	private int location;
@@ -100,7 +106,6 @@ public class Train {
 		}else {
 			location++;
 		} // end else
-		//if location > distance or < 0 do stuff
 		if(location < 0) {
 			location = tr.getDistance();
 		}else if(location > tr.getDistance()) {
