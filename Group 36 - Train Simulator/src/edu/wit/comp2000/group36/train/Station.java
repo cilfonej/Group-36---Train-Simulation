@@ -1,5 +1,7 @@
 package edu.wit.comp2000.group36.train;
 
+import com.pearson.carrano.ArrayQueue;
+
 /*
  *  Group 36
  *  Brandon Horowitz
