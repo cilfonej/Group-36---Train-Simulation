@@ -30,8 +30,8 @@ public class Passenger {
 		this.start = start;
 		this.end = end;
 		initialized = true;
-		Logger.logging("Train is coming from " + start);
-		Logger.logging("Train is going to " + end);
+		Logger.logging("Passenger " + ID + " is coming from " + i);
+		Logger.logging("Pasenger " + ID + " is going to " + end);
 		
 	}
 	
@@ -81,6 +81,22 @@ public class Passenger {
 	}
 	
 	public static void main(String[]args) {
-		
+			System.out.println("Testing Passenger Class");
+		Passenger p = null;
+		testGetters(p);
+	}
+
+	private static void testGetters(Passenger p) {
+		// TODO Auto-generated method stub
+		p = new Passenger(2, new Station(2), new Station(5));
+		System.out.print(toString(getID(2)) + " " + p);
+	}
+
+	public static int getID() {
+		return ID;
+	}
+
+	public static void setID(int iD) {
+		ID = iD;
 	}
 }
