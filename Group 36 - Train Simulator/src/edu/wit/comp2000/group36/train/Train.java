@@ -62,7 +62,7 @@ public class Train {
 			initialized = true;
 		} else {
 			throw new IllegalArgumentException();
-		}
+		} // end else
 	} // end constructor
 	
 	/**
@@ -118,7 +118,7 @@ public class Train {
 		Station currentStation = tr.getStationAtLocation(location);
 		if(currentStation != null) {
 			currentStation.unload(this);
-		}
+		} // end if
 	} // end simulate 
 	
 	public int getLocation() { checkInitialization(); return location; }

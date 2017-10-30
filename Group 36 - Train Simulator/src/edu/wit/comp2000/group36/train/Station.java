@@ -41,7 +41,7 @@ public class Station {
 		initialized = true;
 		} else {
 			throw new IllegalArgumentException();
-		}
+		} // end else
 	} // end constructor
 	
 	/**
