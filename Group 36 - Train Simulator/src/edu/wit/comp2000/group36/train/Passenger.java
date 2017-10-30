@@ -30,15 +30,15 @@ public class Passenger {
 		this.start = start;
 		this.end = end;
 		initialized = true;
-		Logger.logging("Passenger " + ID + " is coming from " + i);
-		Logger.logging("Pasenger " + ID + " is going to " + end);
+		Logger.logging("Passenger " + ID + " is coming from " + start.toString());
+		Logger.logging("Pasenger " + ID + " is going to " + end.toString());
 		
 	}
 	
 	private void checkInitialization() {
 		if ( !initialized )
 		{
-			throw new SecurityException( "Train is not inbound." ) ;
+			throw new SecurityException( "Passenger is not initialized." ) ;
 		} //end if
 	} // end checkInitialization
 	
@@ -75,9 +75,7 @@ public class Passenger {
 	 *  sets up output for Passenger's itinerary
 	 **/
 	public String toString() {
-		String result = " ";
-		result += "Passenger " + ID;
-		return result;
+		return "Passenger " + ID;
 	}
 	
 	public static void main(String[]args) {
@@ -88,15 +86,13 @@ public class Passenger {
 
 	private static void testGetters(Passenger p) {
 		// TODO Auto-generated method stub
-		p = new Passenger(2, new Station(2), new Station(5));
-		System.out.print(toString(getID(2)) + " " + p);
+		TrainRoute tr = new TrainRoute(10);
+		p = new Passenger(new Station(2, tr), new Station(5, tr));
+		System.out.print(p.toString() + " starts at " + p.getStart().toString() + " and ends at " + p.getEnd().toString() + "\n");
+		p = new Passenger(new Station(3, tr), new Station(6, tr));
+		System.out.print(p.toString() + " starts at " + p.getStart().toString() + " and ends at " + p.getEnd().toString() + "\n");
+		p = new Passenger(new Station(2, tr), new Station(5, tr));
+		System.out.print(p.toString() + " starts at " + p.getStart().toString() + " and ends at " + p.getEnd().toString() + "\n");
 	}
 
-	public static int getID() {
-		return ID;
-	}
-
-	public static void setID(int iD) {
-		ID = iD;
-	}
 }

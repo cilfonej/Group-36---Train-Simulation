@@ -117,7 +117,7 @@ public class Station {
 	private void checkInitialization() {
 		if ( !initialized )
 		{
-			throw new SecurityException( "Calculator is not properly initialized." ) ;
+			throw new SecurityException( "Station is not properly initialized." ) ;
 		} //end if
 	} // end checkInitialization
 
