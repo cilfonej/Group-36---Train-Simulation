@@ -8,7 +8,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
@@ -17,11 +16,22 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-import edu.wit.comp2000.group36.train.Logger;
 import edu.wit.comp2000.group36.train.Station;
 import edu.wit.comp2000.group36.train.Train;
 import edu.wit.comp2000.group36.train.visual.ui.InfoPanel.Descriptable;
 
+/*
+ *  Group 36
+ *  Joshua Cilfone
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
+ */
+
+/**
+ * @author Joshua Cilfone
+ */
 public class SimulationUIComponents {
 	static class TrainDrawInfo implements Descriptable {
 		private static final Path2D TRAIN_SHAPE;

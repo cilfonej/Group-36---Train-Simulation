@@ -17,9 +17,20 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import edu.wit.comp2000.group36.train.Simulation;
-import edu.wit.comp2000.group36.train.Train;
 import edu.wit.comp2000.group36.train.visual.ui.SimulationUI;
 
+/*
+ *  Group 36
+ *  Joshua Cilfone
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
+ */
+
+/**
+ * @author Joshua Cilfone
+ */
 public class SimulationFrame extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -4489738892518264663L;
 	public static void main(String[] args) { new SimulationFrame(); }
@@ -111,6 +122,8 @@ public class SimulationFrame extends JFrame implements ActionListener {
 		runPanel.add(runButton);
 		
 		pauseCheckBox = new JCheckBox("Pause at Station");
+		pauseCheckBox.setEnabled(false);
+		pauseCheckBox.setToolTipText("Not implemented in this Version");
 		runPanel.add(pauseCheckBox);
 		
 		simulationPanel = new JPanel();

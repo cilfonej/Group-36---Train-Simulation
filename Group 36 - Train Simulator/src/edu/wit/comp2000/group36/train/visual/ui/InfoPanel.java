@@ -10,6 +10,18 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/*
+ *  Group 36
+ *  Joshua Cilfone
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
+ */
+
+/**
+ * @author Joshua Cilfone
+ */
 public class InfoPanel {
 	
 	private static final int PADDING = 5;

@@ -30,6 +30,18 @@ import edu.wit.comp2000.group36.train.visual.ui.SimulationUIComponents.Particle;
 import edu.wit.comp2000.group36.train.visual.ui.SimulationUIComponents.StationDrawInfo;
 import edu.wit.comp2000.group36.train.visual.ui.SimulationUIComponents.TrainDrawInfo;
 
+/*
+ *  Group 36
+ *  Joshua Cilfone
+ *   
+ *  Comp 2000-03: Data Structures, Fall, 2017
+ *  ADT 3: Queue ADT
+ *  Due: 10/30/2017
+ */
+
+/**
+ * @author Joshua Cilfone
+ */
 public class SimulationUI extends PanelUI implements ComponentListener {
 	protected Simulation simulation;
 	protected TrainDrawInfo[] trains;
